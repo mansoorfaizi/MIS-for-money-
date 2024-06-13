@@ -13,21 +13,21 @@ const RouteList = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="" element={user ? <Layout /> : <Navigate to={"/"} />}>
+        <Route path="" element={user ? <Layout /> : <Navigate to={"/sign-in/"} />}>
           <Route
             path="/"
-            element={user ? <Dashboard /> : <Navigate to={"/"} />}
+            element={user ? <Dashboard /> : <Navigate to={"/sign-in/"} />}
           />
           <Route
             path="/save-money/"
-            element={user ? <SaveMoney /> : <Navigate to={"/"} />}
+            element={user ? <SaveMoney /> : <Navigate to={"/sign-in/"} />}
           />
           <Route
             path="/person/"
-            element={user ? <Persons /> : <Navigate to={"/"} />}
+            element={user ? <Persons /> : <Navigate to={"/sign-in/"} />}
           />
         </Route>
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-in/" element={<SignIn />} />
       </Routes>
     </BrowserRouter>
   );
