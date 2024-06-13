@@ -7,21 +7,20 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PaidIcon from "@mui/icons-material/Paid";
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 export const MainListItem = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
+    auth.logout();
+    navigate("/sign-in/");
   };
 
   return (
     <React.Fragment>
-      <NavLink
-        to={"/home/dashboard/"}
-        style={{ color: "black", textDecoration: "none" }}
-      >
+      <NavLink to={"/"} style={{ color: "black", textDecoration: "none" }}>
         <ListItemButton>
           <ListItemIcon>
             <DashboardIcon />
@@ -30,7 +29,7 @@ export const MainListItem = () => {
         </ListItemButton>
       </NavLink>
       <NavLink
-        to={"/home/person/"}
+        to={"/person/"}
         style={{ color: "black", textDecoration: "none" }}
       >
         <ListItemButton>
@@ -41,7 +40,7 @@ export const MainListItem = () => {
         </ListItemButton>
       </NavLink>
       <NavLink
-        to={"/home/save-money/"}
+        to={"/save-money/"}
         style={{ color: "black", textDecoration: "none" }}
       >
         <ListItemButton>

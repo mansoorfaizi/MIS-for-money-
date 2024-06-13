@@ -14,8 +14,10 @@ import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { loginUser } from "../api/Api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 const SignIn = () => {
+  const auth = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -29,8 +31,8 @@ const SignIn = () => {
       enqueueSnackbar(`Welcome ${data.data.user.username}`, {
         variant: "success",
       });
-      localStorage.setItem("user", JSON.stringify(data.data));
-      navigate("/home/dashboard/");
+      auth.login(data.data);
+      navigate("/");
     },
     onError: (error) => {
       enqueueSnackbar(`${error.response.data.non_field_errors}`, {

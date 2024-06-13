@@ -5,31 +5,29 @@ import Dashboard from "./pages/Dashboard";
 import SaveMoney from "./pages/SaveMoney";
 import SignIn from "./pages/SignIn";
 import Persons from "./pages/Persons";
+import { useAuth } from "./AuthContext";
 
 const RouteList = () => {
-  const user = localStorage.getItem("user");
-
+  const auth = useAuth();
+  const user = auth?.user;
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/home/"
-          element={user ? <Layout /> : <Navigate to={"/"} />}
-        >
+        <Route path="" element={user ? <Layout /> : <Navigate to={"/"} />}>
           <Route
-            path="dashboard/"
+            path="/"
             element={user ? <Dashboard /> : <Navigate to={"/"} />}
           />
           <Route
-            path="/home/save-money/"
+            path="/save-money/"
             element={user ? <SaveMoney /> : <Navigate to={"/"} />}
           />
           <Route
-            path="/home/person/"
+            path="/person/"
             element={user ? <Persons /> : <Navigate to={"/"} />}
           />
         </Route>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/sign-in" element={<SignIn />} />
       </Routes>
     </BrowserRouter>
   );

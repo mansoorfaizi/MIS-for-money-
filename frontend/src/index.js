@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import RouteList from "./router";
 import { SnackbarProvider } from "notistack";
+import { AuthProvider } from "./AuthContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {},
@@ -11,10 +12,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("app")).render(
   <React.StrictMode>
-    <SnackbarProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouteList />
-      </QueryClientProvider>
-    </SnackbarProvider>
+    <AuthProvider>
+      <SnackbarProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouteList />
+        </QueryClientProvider>
+      </SnackbarProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

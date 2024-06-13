@@ -1,10 +1,16 @@
-// AuthContext.js
-import React, { createContext, useState, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   const login = (userData) => {
     setUser(userData);
@@ -12,7 +18,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-  };
+    localStorage.removeItem("user");
+  }; 
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
@@ -21,4 +28,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext);
+};

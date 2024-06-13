@@ -4,13 +4,16 @@ import PaidIcon from "@mui/icons-material/Paid";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { useQuery } from "@tanstack/react-query";
-import { getObjects } from "../api/Api";
+import { getGeneralObject } from "../api/Api";
+import { useAuth } from "../AuthContext";
 
 const Dashboard = () => {
+  const auth = useAuth();
+  const token = auth?.user?.token;
   const { data, isLoading, isError, isSuccess, error } = useQuery(
     ["reports"],
     () => {
-      return getObjects("reports/");
+      return getGeneralObject("reports/", token);
     }
   );
 

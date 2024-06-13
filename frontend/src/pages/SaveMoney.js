@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  CircularProgress,
   Grid,
   MenuItem,
   Paper,
@@ -8,9 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addObject, getObjects } from "../api/Api";
+import { addObject, getGeneralObject } from "../api/Api";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 const Month = [
   { id: 1, value: "January" },
@@ -32,10 +34,13 @@ const TransactionType = [
   { id: 2, value: "Out" },
 ];
 const SaveMoney = () => {
+  const auth = useAuth();
+  const token = auth?.user?.token;
+
   const navigate = useNavigate();
   const [personDate, setPersonData] = useState([]);
   const { data, isSuccess } = useQuery(["persons"], () =>
-    getObjects("persons/")
+    getGeneralObject("persons/", token)
   );
   useEffect(() => {
     if (isSuccess) {
@@ -104,12 +109,12 @@ const SaveMoney = () => {
     }
   };
 
-  const AddMoney = useMutation((data) => addObject("payments", data), {
+  const AddMoney = useMutation((data) => addObject("payments", data, token), {
     onSuccess: () => {
       enqueueSnackbar("Successfully Added", {
         variant: "success",
       });
-      navigate("/home/dashboard/");
+      navigate("/");
     },
   });
   return (
@@ -218,9 +223,13 @@ const SaveMoney = () => {
               />
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Button variant="contained" color="info" type="submit">
-                Save
-              </Button>
+              {AddMoney.isLoading ? (
+                <CircularProgress />
+              ) : (
+                <Button variant="contained" color="info" type="submit">
+                  Save
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Paper>

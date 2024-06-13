@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  CircularProgress,
   Grid,
   MenuItem,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addObject, getObjects } from "../api/Api";
+import { useMutation } from "@tanstack/react-query";
+import { addObject } from "../api/Api";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 const Persons = () => {
+  const auth = useAuth();
+  const token = auth?.user?.token;
+
   const navigate = useNavigate();
 
   const [name, setName] = useState(null);
@@ -36,12 +41,12 @@ const Persons = () => {
     }
   };
 
-  const addPerson = useMutation((data) => addObject("persons", data), {
+  const addPerson = useMutation((data) => addObject("persons", data, token), {
     onSuccess: () => {
       enqueueSnackbar("Successfully Added", {
         variant: "success",
       });
-      navigate("/home/dashboard/");
+      navigate("/");
     },
   });
   return (
@@ -87,9 +92,13 @@ const Persons = () => {
               />
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Button variant="contained" color="info" type="submit">
-                Save
-              </Button>
+              {addPerson.isLoading ? (
+                <CircularProgress />
+              ) : (
+                <Button variant="contained" color="info" type="submit">
+                  Save
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Paper>
