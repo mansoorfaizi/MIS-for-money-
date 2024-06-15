@@ -18,6 +18,12 @@ class TransactionType(models.IntegerChoices):
     In = 1
     Out = 2
 
+
+class CurrencyType(models.IntegerChoices):
+    Afg = 1
+    USD = 2
+    ERU = 3
+
 class Person(models.Model):
     name = models.CharField(max_length=200)
     
@@ -30,8 +36,9 @@ class Payment(models.Model):
     person = models.ForeignKey(Person, on_delete = models.CASCADE)
     month = models.PositiveIntegerField(choices=Month.choices)
     description = models.TextField(null=True, blank=True)
+    currency = models.PositiveIntegerField(choices=CurrencyType.choices, default=CurrencyType.USD)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.amount
+        return str(self.amount)
     

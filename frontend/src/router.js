@@ -4,8 +4,10 @@ import Layout from "./layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import SaveMoney from "./pages/SaveMoney";
 import SignIn from "./pages/SignIn";
-import Persons from "./pages/Persons";
 import { useAuth } from "./AuthContext";
+import Person from "./pages/Person/Person";
+import AddPerson from "./pages/Person/Add/AddPerson";
+import EditPerson from "./pages/Person/Edit/EditPerson";
 
 const RouteList = () => {
   const auth = useAuth();
@@ -13,7 +15,10 @@ const RouteList = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="" element={user ? <Layout /> : <Navigate to={"/sign-in/"} />}>
+        <Route
+          path=""
+          element={user ? <Layout /> : <Navigate to={"/sign-in/"} />}
+        >
           <Route
             path="/"
             element={user ? <Dashboard /> : <Navigate to={"/sign-in/"} />}
@@ -24,7 +29,15 @@ const RouteList = () => {
           />
           <Route
             path="/person/"
-            element={user ? <Persons /> : <Navigate to={"/sign-in/"} />}
+            element={user ? <Person /> : <Navigate to={"/sign-in/"} />}
+          />
+          <Route
+            path="/person/add/"
+            element={user ? <AddPerson /> : <Navigate to={"/sign-in/"} />}
+          />
+          <Route
+            path="/person/edit/"
+            element={user ? <EditPerson /> : <Navigate to={"/sign-in/"} />}
           />
         </Route>
         <Route path="/sign-in/" element={<SignIn />} />

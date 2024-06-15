@@ -3,18 +3,17 @@ import {
   Button,
   CircularProgress,
   Grid,
-  MenuItem,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { addObject } from "../api/Api";
+import { addObject } from "../../../api/Api";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../../../AuthContext";
 
-const Persons = () => {
+const AddPerson = () => {
   const auth = useAuth();
   const token = auth?.user?.token;
 
@@ -46,7 +45,7 @@ const Persons = () => {
       enqueueSnackbar("Successfully Added", {
         variant: "success",
       });
-      navigate("/");
+      navigate(-1);
     },
   });
   return (
@@ -107,4 +106,4 @@ const Persons = () => {
   );
 };
 
-export default Persons;
+export default AddPerson;

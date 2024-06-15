@@ -65,6 +65,9 @@ const SaveMoney = () => {
 
   const [description, setDescription] = useState("");
 
+  const [currency, setCurrency] = useState(null);
+  const [currencyError, setCurrencyError] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
@@ -83,6 +86,7 @@ const SaveMoney = () => {
       setTransactionTypeError("");
       isValid = true;
     }
+
     if (!person) {
       setPersonError("person is required");
       isValid = false;
@@ -90,11 +94,20 @@ const SaveMoney = () => {
       setPersonError("");
       isValid = true;
     }
+
     if (!month) {
       setMonthError("please select the month is required");
       isValid = false;
     } else {
       setMonthError("");
+      isValid = true;
+    }
+
+    if (!currency) {
+      setCurrency("please choice the currency");
+      isValid = false;
+    } else {
+      setCurrency("");
       isValid = true;
     }
 
@@ -105,6 +118,7 @@ const SaveMoney = () => {
       formData.append("person", person);
       formData.append("month", month);
       formData.append("description", description);
+      formData.append("currency", currency);
       AddMoney.mutate(formData);
     }
   };
@@ -163,6 +177,7 @@ const SaveMoney = () => {
               <TextField
                 select
                 fullWidth
+                label="Transaction Type"
                 name="transactionType"
                 error={!!transactionTypeError}
                 helperText={transactionTypeError}
@@ -180,6 +195,7 @@ const SaveMoney = () => {
               <TextField
                 select
                 fullWidth
+                label="Person"
                 name="person"
                 error={!!personError}
                 helperText={personError}
@@ -197,6 +213,7 @@ const SaveMoney = () => {
               <TextField
                 select
                 fullWidth
+                label="Month"
                 name="month"
                 error={!!monthError}
                 helperText={monthError}
@@ -208,6 +225,21 @@ const SaveMoney = () => {
                     {item.value}
                   </MenuItem>
                 ))}
+              </TextField>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+              <TextField
+                select
+                fullWidth
+                label="Currency"
+                error={!!currencyError}
+                helperText={currencyError}
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+              >
+                <MenuItem value={1}>Afg</MenuItem>
+                <MenuItem value={2}>USD</MenuItem>
+                <MenuItem value={3}>ERU</MenuItem>
               </TextField>
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
