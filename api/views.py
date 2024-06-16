@@ -5,6 +5,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import login
 from .models import TransactionType
 from django.db.models import Sum
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -16,7 +17,10 @@ class PersonViewSet(viewsets.ModelViewSet):
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["type", "person", "month", "year", "currency"]
 
 
 class UserLoginView(KnoxLoginView):

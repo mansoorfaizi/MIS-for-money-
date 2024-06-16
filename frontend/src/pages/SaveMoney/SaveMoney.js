@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { deleteObject, getGeneralObject } from "../../api/Api";
 import { useAuth } from "../../AuthContext";
 import {
@@ -15,6 +15,9 @@ import {
   Tooltip,
   Box,
   Button,
+  Grid,
+  TextField,
+  MenuItem,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import Loading from "./skeletonLoading/Loading";
@@ -22,15 +25,57 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { enqueueSnackbar } from "notistack";
 
+const Month = [
+  { id: 1, value: "January" },
+  { id: 2, value: "February" },
+  { id: 3, value: "March" },
+  { id: 4, value: "April" },
+  { id: 5, value: "May" },
+  { id: 6, value: "Jun" },
+  { id: 7, value: "July" },
+  { id: 8, value: "August" },
+  { id: 9, value: "September" },
+  { id: 10, value: "October" },
+  { id: 11, value: "November" },
+  { id: 12, value: "December" },
+];
+
 const SaveMoney = () => {
   const auth = useAuth();
   const token = auth?.user?.token;
   const navigate = useNavigate();
+  const [personData, setPersonData] = useState([]);
+  const [filters, setFilters] = useState({});
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: "",
     subTitle: "",
   });
+
+  const currentYear = new Date().getFullYear();
+  const startYear = 2020;
+  const Years = Array.from(
+    { length: currentYear - startYear + 1 },
+    (_, index) => startYear + index
+  );
+
+  const handleSearch = (event) => {
+    const { name, value } = event.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const { data: getPersonData, isSuccess: personSuccess } = useQuery(
+    ["person"],
+    () => {
+      return getGeneralObject("persons/", token);
+    }
+  );
+
+  useEffect(() => {
+    if (personSuccess) {
+      setPersonData(getPersonData);
+    }
+  }, [getPersonData, personSuccess]);
 
   const handleEdit = (money) => {
     localStorage.setItem("money", JSON.stringify(money));
@@ -58,9 +103,10 @@ const SaveMoney = () => {
   });
 
   const { data, isLoading, isError, isSuccess, refetch } = useQuery(
-    ["save-money"],
+    ["save-money", filters],
     () => {
-      return getGeneralObject("payments/", token);
+      const params = new URLSearchParams(filters);
+      return getGeneralObject(`payments/?${params.toString()}`, token);
     }
   );
 
@@ -94,6 +140,121 @@ const SaveMoney = () => {
               New
             </Button>
           </Link>
+        </Paper>
+        <Paper
+          sx={{
+            width: "100%",
+            minHeight: "80px",
+            borderRadius: "20px",
+            p: 3,
+            marginTop: 2,
+          }}
+        >
+          <Grid container spacing={1}>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+              <TextField
+                select
+                fullWidth
+                label="Person"
+                variant="outlined"
+                name="person"
+                onChange={handleSearch}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    height: "46px",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    padding: "14px",
+                  },
+                }}
+              >
+                {personData.map((item, index) => (
+                  <MenuItem key={index} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+              <TextField
+                select
+                fullWidth
+                label="Month"
+                variant="outlined"
+                name="month"
+                onChange={handleSearch}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    height: "46px",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    padding: "14px",
+                  },
+                }}
+              >
+                {Month.map((item, index) => (
+                  <MenuItem key={index} value={item.id}>
+                    {item.value}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+              <TextField
+                select
+                fullWidth
+                label="Year"
+                variant="outlined"
+                name="year"
+                onChange={handleSearch}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    height: "46px",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    padding: "14px",
+                  },
+                }}
+              >
+                {Years.map((year) => (
+                  <MenuItem key={year} value={year}>
+                    {year}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+              <TextField
+                select
+                fullWidth
+                label="Currency"
+                variant="outlined"
+                name="currency"
+                onChange={handleSearch}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    height: "46px",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    padding: "14px",
+                  },
+                }}
+              >
+                <MenuItem value={1}>Afg</MenuItem>
+                <MenuItem value={2}>USD</MenuItem>
+                <MenuItem value={3}>Euro</MenuItem>
+              </TextField>
+            </Grid>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={() => refetch()}
+              >
+                Filter
+              </Button>
+            </Grid>
+          </Grid>
         </Paper>
         <TableContainer component={Paper} sx={{ mt: 2 }}>
           <Table>

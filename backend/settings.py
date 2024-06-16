@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "frontend.apps.FrontendConfig",
     "knox",
     "corsheaders",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
