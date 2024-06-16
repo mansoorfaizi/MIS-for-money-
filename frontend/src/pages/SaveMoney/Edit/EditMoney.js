@@ -9,10 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addObject, getGeneralObject } from "../api/Api";
+import { addObject, getGeneralObject, updateObject } from "../../../api/Api";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../../../AuthContext";
 
 const Month = [
   { id: 1, value: "January" },
@@ -33,9 +33,10 @@ const TransactionType = [
   { id: 1, value: "In" },
   { id: 2, value: "Out" },
 ];
-const SaveMoney = () => {
+const EditMoney = () => {
   const auth = useAuth();
   const token = auth?.user?.token;
+  const moneyStorage = JSON.parse(localStorage.getItem("money"));
 
   const navigate = useNavigate();
   const [personDate, setPersonData] = useState([]);
@@ -51,21 +52,21 @@ const SaveMoney = () => {
   const date = new Date();
   const currentMonth = date.getMonth() + 1;
 
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState(moneyStorage.amount);
   const [amountError, setAmountError] = useState("");
 
-  const [transactionType, setTransactionType] = useState(1);
+  const [transactionType, setTransactionType] = useState(moneyStorage.type);
   const [transactionTypeError, setTransactionTypeError] = useState(null);
 
-  const [person, setPerson] = useState(null);
+  const [person, setPerson] = useState(moneyStorage.person);
   const [personError, setPersonError] = useState("");
 
-  const [month, setMonth] = useState(currentMonth);
+  const [month, setMonth] = useState(moneyStorage.month);
   const [monthError, setMonthError] = useState("");
 
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(moneyStorage.description);
 
-  const [currency, setCurrency] = useState(null);
+  const [currency, setCurrency] = useState(moneyStorage.currency);
   const [currencyError, setCurrencyError] = useState("");
 
   const handleSubmit = (e) => {
@@ -104,10 +105,10 @@ const SaveMoney = () => {
     }
 
     if (!currency) {
-      setCurrency("please choice the currency");
+      setCurrencyError("please choice the currency");
       isValid = false;
     } else {
-      setCurrency("");
+      setCurrencyError("");
       isValid = true;
     }
 
@@ -123,14 +124,17 @@ const SaveMoney = () => {
     }
   };
 
-  const AddMoney = useMutation((data) => addObject("payments", data, token), {
-    onSuccess: () => {
-      enqueueSnackbar("Successfully Added", {
-        variant: "success",
-      });
-      navigate("/");
-    },
-  });
+  const AddMoney = useMutation(
+    (data) => updateObject("payments", data, moneyStorage.id, token),
+    {
+      onSuccess: () => {
+        enqueueSnackbar("Successfully Added", {
+          variant: "success",
+        });
+        navigate(-1);
+      },
+    }
+  );
   return (
     <Grid container spacing={3}>
       <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
@@ -270,4 +274,4 @@ const SaveMoney = () => {
   );
 };
 
-export default SaveMoney;
+export default EditMoney;

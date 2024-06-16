@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { addObject, updateObject } from "../../../api/Api";
+import { updateObject } from "../../../api/Api";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";

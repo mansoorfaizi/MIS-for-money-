@@ -22,7 +22,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { enqueueSnackbar } from "notistack";
 
-const Person = () => {
+const SaveMoney = () => {
   const auth = useAuth();
   const token = auth?.user?.token;
   const navigate = useNavigate();
@@ -32,9 +32,9 @@ const Person = () => {
     subTitle: "",
   });
 
-  const handleEdit = (person) => {
-    localStorage.setItem("person", JSON.stringify(person));
-    navigate("/person/edit/");
+  const handleEdit = (money) => {
+    localStorage.setItem("money", JSON.stringify(money));
+    navigate("/save-money/edit/");
   };
 
   const handleDelete = (id) => {
@@ -42,10 +42,10 @@ const Person = () => {
       ...confirmDialog,
       isOpen: false,
     });
-    deletePerson.mutate(id);
+    deleteMoney.mutate(id);
   };
 
-  const deletePerson = useMutation((id) => deleteObject("persons", id, token), {
+  const deleteMoney = useMutation((id) => deleteObject("persons", id, token), {
     onSuccess: () => {
       enqueueSnackbar("Successfully Deleted", { variant: "success" });
       refetch();
@@ -58,9 +58,9 @@ const Person = () => {
   });
 
   const { data, isLoading, isError, isSuccess, refetch } = useQuery(
-    ["persons"],
+    ["save-money"],
     () => {
-      return getGeneralObject("persons/", token);
+      return getGeneralObject("payments/", token);
     }
   );
 
@@ -87,9 +87,9 @@ const Person = () => {
           }}
         >
           <Typography variant="h6" fontWeight="bold">
-            All Persons
+            All Transaction
           </Typography>
-          <Link to={"/person/add/"}>
+          <Link to={"/save-money/add/"}>
             <Button variant="contained" color="info">
               New
             </Button>
@@ -100,21 +100,31 @@ const Person = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Number</TableCell>
-                <TableCell>Name</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Transaction Type</TableCell>
+                <TableCell>Person</TableCell>
+                <TableCell>Month</TableCell>
+                <TableCell>Currency</TableCell>
+                <TableCell>date</TableCell>
                 <TableCell>Edit</TableCell>
                 <TableCell>Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((person, index) => (
-                <TableRow key={person.id}>
+              {data.map((item, index) => (
+                <TableRow key={item.id}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{person.name}</TableCell>
+                  <TableCell>{item.amount}</TableCell>
+                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.person}</TableCell>
+                  <TableCell>{item.month}</TableCell>
+                  <TableCell>{item.currency}</TableCell>
+                  <TableCell>{item.date}</TableCell>
                   <TableCell>
                     <Tooltip title="Edit">
                       <IconButton
                         color="primary"
-                        onClick={() => handleEdit(person)}
+                        onClick={() => handleEdit(item)}
                       >
                         <Edit />
                       </IconButton>
@@ -156,4 +166,4 @@ const Person = () => {
   return null;
 };
 
-export default Person;
+export default SaveMoney;

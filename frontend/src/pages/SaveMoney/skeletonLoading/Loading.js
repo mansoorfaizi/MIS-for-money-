@@ -30,9 +30,9 @@ const Loading = () => {
         }}
       >
         <Typography variant="h6" fontWeight="bold">
-          All Persons
+          All Transaction
         </Typography>
-        <Link to={"/person/add/"}>
+        <Link to={"/save-money/add/"}>
           <Button variant="contained" color="info">
             New
           </Button>
@@ -42,15 +42,35 @@ const Loading = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell>Number</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Transaction Type</TableCell>
+              <TableCell>Person</TableCell>
+              <TableCell>Month</TableCell>
+              <TableCell>Currency</TableCell>
+              <TableCell>date</TableCell>
               <TableCell>Edit</TableCell>
               <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.from(new Array(5)).map((_, index) => (
+            {Array.from(new Array(10)).map((_, index) => (
               <TableRow key={index}>
+                <TableCell>
+                  <Skeleton variant="text" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="text" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="text" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="text" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton variant="text" />
+                </TableCell>
                 <TableCell>
                   <Skeleton variant="text" />
                 </TableCell>
