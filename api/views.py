@@ -34,13 +34,31 @@ class ReportViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAdminUser]
 
     def list(self, request):
-        total_money_in = Payment.objects.filter(type=TransactionType.In).aggregate(total=Sum('amount'))['total'] or 0        
-        total_money_out = Payment.objects.filter(type=TransactionType.Out).aggregate(total=Sum('amount'))['total'] or 0
-        total_available_money = total_money_in - total_money_out
+        total_money_in_afg = Payment.objects.filter(type=TransactionType.In, currency=1).aggregate(total=Sum('amount'))['total'] or 0        
+        total_money_out_afg = Payment.objects.filter(type=TransactionType.Out, currency=1).aggregate(total=Sum('amount'))['total'] or 0
+
+        total_money_in_usd = Payment.objects.filter(type=TransactionType.In, currency=2).aggregate(total=Sum('amount'))['total'] or 0        
+        total_money_out_usd = Payment.objects.filter(type=TransactionType.Out, currency=2).aggregate(total=Sum('amount'))['total'] or 0
+
+        total_money_in_eru = Payment.objects.filter(type=TransactionType.In, currency=3).aggregate(total=Sum('amount'))['total'] or 0        
+        total_money_out_eru = Payment.objects.filter(type=TransactionType.Out, currency=3).aggregate(total=Sum('amount'))['total'] or 0
+
+
+        total_available_money_afg = total_money_in_afg - total_money_out_afg
+        total_available_money_usd = total_money_in_usd - total_money_out_usd
+        total_available_money_eru = total_money_in_eru - total_money_out_eru
         return response.Response(
             {
-                "totalMoneyIn": total_money_in,
-                "totalMoneyOut": total_money_out,
-                "totalAvailableMoney": total_available_money,
+                "totalMoneyInAfg": total_money_in_afg,
+                "   ": total_money_out_afg,
+                "totalMoneyAvailableAfg": total_available_money_afg,
+
+                "totalMoneyInUsd": total_money_in_usd,
+                "totalMoneyOutUsd": total_money_out_usd,
+                "totalMoneyAvailableUsd": total_available_money_usd,
+
+                "totalMoneyInEru": total_money_in_eru,
+                "totalMoneyOutEru": total_money_out_eru,
+                "totalMoneyAvailableEru": total_available_money_eru,
             }
         )

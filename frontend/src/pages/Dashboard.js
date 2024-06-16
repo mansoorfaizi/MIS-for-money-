@@ -3,6 +3,7 @@ import { Alert, Grid, Paper, Skeleton, Typography } from "@mui/material";
 import PaidIcon from "@mui/icons-material/Paid";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PaymentIcon from "@mui/icons-material/Payment";
+import EuroIcon from "@mui/icons-material/Euro";
 import { useQuery } from "@tanstack/react-query";
 import { getGeneralObject } from "../api/Api";
 import { useAuth } from "../AuthContext";
@@ -62,10 +63,10 @@ const Dashboard = () => {
           >
             <PaymentIcon sx={{ fontSize: "50px" }} />
             <Typography variant="h6" fontWeight="bold">
-              Total receive money
+              Total receive Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              $ {data.totalMoneyIn}
+              $ {data.totalMoneyInAfg}
             </Typography>
           </Paper>
         </Grid>
@@ -83,10 +84,10 @@ const Dashboard = () => {
           >
             <PaidIcon sx={{ fontSize: "50px" }} />
             <Typography variant="h6" fontWeight="bold">
-              Total gone money
+              Total gone Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              $ {data.totalMoneyOut}
+              $ {data.totalMoneyOutAfg}
             </Typography>
           </Paper>
         </Grid>
@@ -104,10 +105,136 @@ const Dashboard = () => {
           >
             <CreditScoreIcon sx={{ fontSize: "50px" }} />
             <Typography variant="h6" fontWeight="bold">
-              Total available money
+              Total available Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              $ {data.totalAvailableMoney}
+              $ {data.totalMoneyAvailableAfg}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 240,
+              borderRadius: "20px",
+            }}
+          >
+            <PaymentIcon sx={{ fontSize: "50px" }} />
+            <Typography variant="h6" fontWeight="bold">
+              Total receive USD money
+            </Typography>
+            <Typography variant="h6" fontWeight="bold">
+              ؋ {data.totalMoneyInUsd}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 240,
+              borderRadius: "20px",
+            }}
+          >
+            <PaidIcon sx={{ fontSize: "50px" }} />
+            <Typography variant="h6" fontWeight="bold">
+              Total gone USD money
+            </Typography>
+            <Typography variant="h6" fontWeight="bold">
+              ؋ {data.totalMoneyOutUsd}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 240,
+              borderRadius: "20px",
+            }}
+          >
+            <CreditScoreIcon sx={{ fontSize: "50px" }} />
+            <Typography variant="h6" fontWeight="bold">
+              Total available Afg money
+            </Typography>
+            <Typography variant="h6" fontWeight="bold">
+              ؋{data.totalMoneyAvailableUsd}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 240,
+              borderRadius: "20px",
+            }}
+          >
+            <PaymentIcon sx={{ fontSize: "50px" }} />
+            <Typography variant="h6" fontWeight="bold">
+              Total receive Euro money
+            </Typography>
+            <Typography variant="h6" fontWeight="bold">
+              € {data.totalMoneyInEru}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 240,
+              borderRadius: "20px",
+            }}
+          >
+            <EuroIcon sx={{ fontSize: "50px" }} />
+            <Typography variant="h6" fontWeight="bold">
+              Total gone Euro money
+            </Typography>
+            <Typography variant="h6" fontWeight="bold">
+              € {data.totalMoneyOutEru}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 240,
+              borderRadius: "20px",
+            }}
+          >
+            <CreditScoreIcon sx={{ fontSize: "50px" }} />
+            <Typography variant="h6" fontWeight="bold">
+              Total available Euro money
+            </Typography>
+            <Typography variant="h6" fontWeight="bold">
+              € {data.totalMoneyAvailableEru}
             </Typography>
           </Paper>
         </Grid>

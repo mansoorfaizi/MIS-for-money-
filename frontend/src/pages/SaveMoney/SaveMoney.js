@@ -103,6 +103,7 @@ const SaveMoney = () => {
                 <TableCell>Amount</TableCell>
                 <TableCell>Transaction Type</TableCell>
                 <TableCell>Person</TableCell>
+                <TableCell>Year</TableCell>
                 <TableCell>Month</TableCell>
                 <TableCell>Currency</TableCell>
                 <TableCell>date</TableCell>
@@ -117,6 +118,7 @@ const SaveMoney = () => {
                   <TableCell>{item.amount}</TableCell>
                   <TableCell>{item.type}</TableCell>
                   <TableCell>{item.person}</TableCell>
+                  <TableCell>{item.year}</TableCell>
                   <TableCell>{item.month}</TableCell>
                   <TableCell>{item.currency}</TableCell>
                   <TableCell>{item.date}</TableCell>

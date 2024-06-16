@@ -35,6 +35,7 @@ class Payment(models.Model):
     type = models.PositiveIntegerField(choices=TransactionType.choices)
     person = models.ForeignKey(Person, on_delete = models.CASCADE)
     month = models.PositiveIntegerField(choices=Month.choices)
+    year = models.IntegerField()
     description = models.TextField(null=True, blank=True)
     currency = models.PositiveIntegerField(choices=CurrencyType.choices, default=CurrencyType.USD)
     date = models.DateTimeField(auto_now_add=True)

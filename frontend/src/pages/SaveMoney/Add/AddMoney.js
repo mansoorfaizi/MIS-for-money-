@@ -51,6 +51,13 @@ const AddMoney = () => {
   const date = new Date();
   const currentMonth = date.getMonth() + 1;
 
+  const currentYear = new Date().getFullYear();
+  const startYear = 2020;
+  const Years = Array.from(
+    { length: currentYear - startYear + 1 },
+    (_, index) => startYear + index
+  );
+
   const [amount, setAmount] = useState(null);
   const [amountError, setAmountError] = useState("");
 
@@ -62,6 +69,9 @@ const AddMoney = () => {
 
   const [month, setMonth] = useState(currentMonth);
   const [monthError, setMonthError] = useState("");
+
+  const [year, setYear] = useState(currentYear.toString());
+  const [yearError, setYearError] = useState("");
 
   const [description, setDescription] = useState("");
 
@@ -96,10 +106,18 @@ const AddMoney = () => {
     }
 
     if (!month) {
-      setMonthError("please select the month is required");
+      setMonthError("please select the month");
       isValid = false;
     } else {
       setMonthError("");
+      isValid = true;
+    }
+
+    if (!year) {
+      setYearError("please select the Year");
+      isValid = false;
+    } else {
+      setYearError("");
       isValid = true;
     }
 
@@ -117,6 +135,7 @@ const AddMoney = () => {
       formData.append("type", transactionType);
       formData.append("person", person);
       formData.append("month", month);
+      formData.append("year", year);
       formData.append("description", description);
       formData.append("currency", currency);
       AddMoney.mutate(formData);
@@ -223,6 +242,24 @@ const AddMoney = () => {
                 {Month.map((item, index) => (
                   <MenuItem key={index} value={item.id}>
                     {item.value}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+              <TextField
+                select
+                fullWidth
+                label="Year"
+                name="year"
+                error={!!yearError}
+                helperText={yearError}
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              >
+                {Years.map((year) => (
+                  <MenuItem key={year} value={year}>
+                    {year}
                   </MenuItem>
                 ))}
               </TextField>
