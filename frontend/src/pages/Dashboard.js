@@ -66,7 +66,7 @@ const Dashboard = () => {
               Total receive Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              $ {data.totalMoneyInAfg}
+              ؋ {data.totalMoneyInAfg}
             </Typography>
           </Paper>
         </Grid>
@@ -87,7 +87,7 @@ const Dashboard = () => {
               Total gone Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              $ {data.totalMoneyOutAfg}
+              ؋ {data.totalMoneyOutAfg}
             </Typography>
           </Paper>
         </Grid>
@@ -108,7 +108,7 @@ const Dashboard = () => {
               Total available Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              $ {data.totalMoneyAvailableAfg}
+              ؋ {data.totalMoneyAvailableAfg}
             </Typography>
           </Paper>
         </Grid>
@@ -129,7 +129,7 @@ const Dashboard = () => {
               Total receive USD money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              ؋ {data.totalMoneyInUsd}
+              $ {data.totalMoneyInUsd}
             </Typography>
           </Paper>
         </Grid>
@@ -150,7 +150,7 @@ const Dashboard = () => {
               Total gone USD money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              ؋ {data.totalMoneyOutUsd}
+              $ {data.totalMoneyOutUsd}
             </Typography>
           </Paper>
         </Grid>
@@ -171,7 +171,7 @@ const Dashboard = () => {
               Total available Afg money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
-              ؋{data.totalMoneyAvailableUsd}
+              $ {data.totalMoneyAvailableUsd}
             </Typography>
           </Paper>
         </Grid>

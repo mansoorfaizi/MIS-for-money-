@@ -66,6 +66,7 @@ export default function Layout() {
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
+            overflowX: "auto",
           }}
         >
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

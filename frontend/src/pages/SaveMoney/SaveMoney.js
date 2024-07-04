@@ -31,7 +31,7 @@ const Month = [
   { id: 3, value: "March" },
   { id: 4, value: "April" },
   { id: 5, value: "May" },
-  { id: 6, value: "Jun" },
+  { id: 6, value: "June" },
   { id: 7, value: "July" },
   { id: 8, value: "August" },
   { id: 9, value: "September" },
@@ -39,6 +39,20 @@ const Month = [
   { id: 11, value: "November" },
   { id: 12, value: "December" },
 ];
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12;
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+
+  return `${day} ${month} ${year} at ${formattedHours}:${formattedMinutes} ${period}`;
+};
 
 const SaveMoney = () => {
   const auth = useAuth();
@@ -96,14 +110,12 @@ const SaveMoney = () => {
       refetch();
     },
     onError: () => {
-      enqueueSnackbar("con't delete this item", {
-        variant: "error",
-      });
+      enqueueSnackbar("Can't delete this item", { variant: "error" });
     },
   });
 
   const { data, isLoading, isError, isSuccess, refetch } = useQuery(
-    ["save-money", filters],
+    ["save-money"],
     () => {
       const params = new URLSearchParams(filters);
       return getGeneralObject(`payments/?${params.toString()}`, token);
@@ -133,7 +145,7 @@ const SaveMoney = () => {
           }}
         >
           <Typography variant="h6" fontWeight="bold">
-            All Transaction
+            All Transactions
           </Typography>
           <Link to={"/save-money/add/"}>
             <Button variant="contained" color="info">
@@ -151,7 +163,7 @@ const SaveMoney = () => {
           }}
         >
           <Grid container spacing={1}>
-            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <TextField
                 select
                 fullWidth
@@ -175,7 +187,7 @@ const SaveMoney = () => {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <TextField
                 select
                 fullWidth
@@ -199,7 +211,7 @@ const SaveMoney = () => {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <TextField
                 select
                 fullWidth
@@ -223,7 +235,7 @@ const SaveMoney = () => {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+            <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
               <TextField
                 select
                 fullWidth
@@ -267,7 +279,7 @@ const SaveMoney = () => {
                 <TableCell>Year</TableCell>
                 <TableCell>Month</TableCell>
                 <TableCell>Currency</TableCell>
-                <TableCell>date</TableCell>
+                <TableCell>Date</TableCell>
                 <TableCell>Edit</TableCell>
                 <TableCell>Delete</TableCell>
               </TableRow>
@@ -277,12 +289,12 @@ const SaveMoney = () => {
                 <TableRow key={item.id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.amount}</TableCell>
-                  <TableCell>{item.type}</TableCell>
-                  <TableCell>{item.person}</TableCell>
+                  <TableCell>{item.type_display}</TableCell>
+                  <TableCell>{item.person_name}</TableCell>
                   <TableCell>{item.year}</TableCell>
                   <TableCell>{item.month}</TableCell>
-                  <TableCell>{item.currency}</TableCell>
-                  <TableCell>{item.date}</TableCell>
+                  <TableCell>{item.currency_display}</TableCell>
+                  <TableCell>{formatDate(item.date)}</TableCell>
                   <TableCell>
                     <Tooltip title="Edit">
                       <IconButton
@@ -304,7 +316,7 @@ const SaveMoney = () => {
                               "Are you sure you want to delete this record?",
                             subTitle: "You can't undo this operation",
                             onConfirm: () => {
-                              handleDelete(person.id);
+                              handleDelete(item.id);
                             },
                           });
                         }}

@@ -10,9 +10,21 @@ class PersonSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PaymentSerializer(serializers.ModelSerializer):
+    currency_display = serializers.SerializerMethodField()
+    type_display = serializers.SerializerMethodField()
+    person_name = serializers.SerializerMethodField()
     class Meta:
         model = Payment
         fields = "__all__"
+
+    def get_currency_display(self, obj):
+        return obj.get_currency_display()
+
+    def get_type_display(self, obj):
+        return obj.get_type_display()
+
+    def get_person_name(self, obj):
+        return obj.person.name
 
 class UserSerializer(serializers.ModelSerializer):
 
