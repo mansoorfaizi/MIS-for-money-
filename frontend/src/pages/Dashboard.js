@@ -168,7 +168,7 @@ const Dashboard = () => {
           >
             <CreditScoreIcon sx={{ fontSize: "50px" }} />
             <Typography variant="h6" fontWeight="bold">
-              Total available Afg money
+              Total available USD money
             </Typography>
             <Typography variant="h6" fontWeight="bold">
               $ {data.totalMoneyAvailableUsd}
