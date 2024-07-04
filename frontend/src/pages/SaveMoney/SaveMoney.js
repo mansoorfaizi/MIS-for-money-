@@ -104,7 +104,7 @@ const SaveMoney = () => {
     deleteMoney.mutate(id);
   };
 
-  const deleteMoney = useMutation((id) => deleteObject("persons", id, token), {
+  const deleteMoney = useMutation((id) => deleteObject("payments", id, token), {
     onSuccess: () => {
       enqueueSnackbar("Successfully Deleted", { variant: "success" });
       refetch();
