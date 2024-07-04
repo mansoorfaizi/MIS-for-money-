@@ -17,7 +17,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["type", "person", "month", "year", "currency"]
